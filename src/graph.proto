@@ -1,0 +1,23 @@
+syntax = "proto3";
+
+package graph_serialize;
+
+message Edge {
+	int32 from = 1;
+	int32 to = 2;
+	double weight = 3;
+	oneof bus_name {
+		bool nullopt = 4;
+		int32 data = 5;
+	}
+	int32 span_count = 6;
+}
+
+message IncidenceList {
+	repeated int32 list = 1;
+}
+
+message DirectedWeightedGraphDataBase {
+	repeated Edge edges_ = 1;
+	repeated IncidenceList incidence_lists_ = 2;
+}

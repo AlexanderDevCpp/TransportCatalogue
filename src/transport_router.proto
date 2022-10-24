@@ -1,0 +1,42 @@
+syntax = "proto3";
+
+package transport_router_serialize;
+
+import "graph.proto";
+
+message RouterSettings {
+	int32 bus_wait_time = 1;
+	double bus_velocity = 2;
+}
+
+message RoutesInternalData {
+	double weight = 1;
+	oneof prev_edge {
+		bool nullopt = 2;
+		int32 edgeid = 3;
+	}
+}
+
+message RoutesInternalDataOptional {
+	oneof optional_data {
+		bool nullopt = 1;
+		RoutesInternalData data = 2;
+	}
+}
+
+message RoutesInternalDataVector {
+	repeated RoutesInternalDataOptional data = 1;
+}
+
+message RouterDataBase {
+	repeated RoutesInternalDataVector routes_internal_data = 1;
+}
+
+message TransportRouterDataBase {
+	RouterSettings settings = 1;
+
+	graph_serialize.DirectedWeightedGraphDataBase graph = 4;
+	RouterDataBase router = 5;
+
+	map<int32,int32> id_to_index = 6;
+}
